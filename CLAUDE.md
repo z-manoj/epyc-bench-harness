@@ -47,7 +47,7 @@ pytest -q                            # 26 tests; e2e tests are marked `slow`
 | `tests/` | `mock_server.py` (OpenAI-compatible mock), `test_config.py`, `test_analysis.py`, `test_e2e.py` |
 | `examples/` | Harness configs; `experiment.yaml` documents every option. Core counts in them are for the old 8-core VM |
 | `prompts/` | `prompts_{128..4096}.txt`, JSONL `{id, text}`, 20 prompts each |
-| `docs/` | `deployment_recommendations.md`, `throughput_experiment_plan.md` (single vs multi-instance, 6 stages) |
+| `docs/` | `deployment_recommendations.md`, `throughput_experiment_plan.md` (single vs multi-instance, 6 stages), `multi_user_experiment_plan.md` (capacity at latency targets) |
 | `results/` | Committed: reports, CSVs, PNGs, raw JSONL. Ignored: `logs/`, `*.log`, parquet |
 
 ## Conventions
