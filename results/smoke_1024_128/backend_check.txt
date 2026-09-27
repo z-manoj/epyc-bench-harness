@@ -1,0 +1,9 @@
+INFO 09-27 18:36:55 [__init__.py:197] AMD Zen CPU detected with zentorch installed, using ZenCpuPlatform.
+INFO 09-27 18:36:55 [__init__.py:254] Platform plugin zentorch is activated
+INFO 09-27 18:37:08 [__init__.py:197] AMD Zen CPU detected with zentorch installed, using ZenCpuPlatform.
+INFO 09-27 18:49:08 [__init__.py:197] AMD Zen CPU detected with zentorch installed, using ZenCpuPlatform.
+INFO 09-27 18:49:08 [__init__.py:254] Platform plugin zentorch is activated
+INFO 09-27 18:49:15 [__init__.py:197] AMD Zen CPU detected with zentorch installed, using ZenCpuPlatform.
+(Worker pid=3820906) INFO 09-27 18:50:40 [__init__.py:755] Selected CPUInt8ScaledMMLinearKernel for CompressedTensorsW8A8Int8
+(Worker pid=3819544) INFO 09-27 18:49:23 [__init__.py:755] Selected ZentorchInt8ScaledMMLinearKernel for CompressedTensorsW8A8Int8
+(Worker pid=3819544) INFO 09-27 18:49:23 [zentorch.py:81] [zen_cpu] Using zentorch_dynamic_qlinear for W8A8 (dynamic-symmetric)

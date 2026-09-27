@@ -1,0 +1,261 @@
+experiment_id: dev_llamacpp_accel
+results_dir: /tmp/bench_dev_results
+dataset_dir: /home/mkumar/epyc/prompts
+dev_mode: true
+platform:
+  harness_cores:
+  - 0
+  - 1
+  expected_smt: 'on'
+  expected_governor: null
+  require_numactl: false
+run_policy:
+  reps: 3
+  max_extra_reps: 2
+  max_failed_reps: 3
+  stability_window_s: 5.0
+  stability_max_retries: 2
+  cooldown_s: 3.0
+  sample_interval_ms: 50.0
+  server_ready_timeout_s: 120.0
+  request_timeout_s: 600.0
+  restart_server_between_reps: false
+  system_check_window_s: 3.0
+warmup:
+  server_warmup_requests: 2
+  per_rep_warmup_requests: 1
+  per_rep_warmup_min_s: 0.0
+sla:
+  ttft_p95_ms: 2000.0
+  tpot_p95_ms: 200.0
+thresholds:
+  system_check:
+    max_mean_util_pct: 100.0
+    max_foreign_proc_cpu_pct: 1000.0
+  gate:
+    max_server_util_mean_pct: 3.0
+    max_server_util_std_pp: 2.0
+    max_other_util_mean_pct: 100.0
+    max_sys_mem_drift_mb: 4096.0
+    max_rss_drift_mb: 128.0
+    max_missed_frac: 0.01
+    max_freq_dev_frac: 0.25
+  validation:
+    max_error_frac: 0.01
+    min_complete_frac: 0.99
+    prompt_warn_frac: 0.02
+    prompt_fail_frac: 0.05
+    max_drift_frac: 0.05
+    max_outside_util_pct: 100.0
+    max_freq_drop_frac: 0.1
+    max_missed_frac: 0.01
+    mem_growth_warn_mb: 256.0
+    recovery_margin_pp: 2.0
+    max_cooldown_factor: 2.0
+    oom_min_available_frac: 0.01
+  consistency:
+    output_tok_s_cv: 0.05
+    total_tok_s_cv: 0.05
+    ttft_p50_cv: 0.05
+    tpot_p50_cv: 0.05
+    itl_p50_cv: 0.05
+    ttft_p95_cv: 0.1
+    tpot_p95_cv: 0.1
+    e2e_p99_cv: 0.15
+    cpu_util_cv: 0.05
+    peak_rss_cv: 0.03
+    outlier_std: 2.0
+    outlier_frac: 0.07
+plan:
+  budget_hours: 72.0
+  launch_estimate_s:
+    vllm: 300.0
+    llamacpp: 60.0
+    mock: 3.0
+  server_warmup_request_s: 10.0
+server_configs:
+- id: llamacpp_q8_zendnn
+  engine: llamacpp
+  model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+  precision: q8_0
+  accel: zendnn
+  accel_group: null
+  binary: /home/mkumar/llama.cpp/build/bin/llama-server
+  served_model_name: null
+  host: 127.0.0.1
+  port_base: 9000
+  instances:
+  - cores: 2-15
+    numa_node: 0
+  args:
+  - -t
+  - '14'
+  - -tb
+  - '14'
+  - -np
+  - '4'
+  - -c
+  - '16384'
+  - --cont-batching
+  env:
+    ZENDNNL_MATMUL_ALGO: '1'
+  slots_per_instance: null
+- id: llamacpp_q8_cpu
+  engine: llamacpp
+  model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+  precision: q8_0
+  accel: none
+  accel_group: null
+  binary: /home/mkumar/llama.cpp/build-nozendnn/bin/llama-server
+  served_model_name: null
+  host: 127.0.0.1
+  port_base: 9100
+  instances:
+  - cores: 2-15
+    numa_node: 0
+  args:
+  - -t
+  - '14'
+  - -tb
+  - '14'
+  - -np
+  - '4'
+  - -c
+  - '16384'
+  - --cont-batching
+  env: {}
+  slots_per_instance: null
+workloads:
+- scenario: online_single
+  prompt_sizes:
+  - 128
+  - 1024
+  output_lens:
+  - 32
+  concurrency:
+  - 1
+  num_requests: 6
+  min_measure_s: 0.0
+- scenario: online_multi
+  prompt_sizes:
+  - 128
+  output_lens:
+  - 32
+  concurrency:
+  - 4
+  num_requests: 8
+  min_measure_s: 0.0
+- scenario: batch
+  prompt_sizes:
+  - 512
+  output_lens:
+  - 32
+  concurrency:
+  - max
+  num_requests: 8
+  min_measure_s: 0.0
+resolved:
+  llamacpp_q8_zendnn:
+    total_slots: 4
+    topology: 1x14c
+    accel: zendnn
+    instances:
+    - cores: 2-15
+      core_list:
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      numa_node: 0
+      port: 9000
+    points:
+    - point_id: online_single_p128_o32_c1
+      scenario: online_single
+      prompt_size: 128
+      output_len: 32
+      concurrency: 1
+      num_requests: 6
+      min_measure_s: 0
+    - point_id: online_single_p1024_o32_c1
+      scenario: online_single
+      prompt_size: 1024
+      output_len: 32
+      concurrency: 1
+      num_requests: 6
+      min_measure_s: 0
+    - point_id: online_multi_p128_o32_c4
+      scenario: online_multi
+      prompt_size: 128
+      output_len: 32
+      concurrency: 4
+      num_requests: 8
+      min_measure_s: 0
+    - point_id: batch_p512_o32_c4
+      scenario: batch
+      prompt_size: 512
+      output_len: 32
+      concurrency: 4
+      num_requests: 8
+      min_measure_s: 0
+  llamacpp_q8_cpu:
+    total_slots: 4
+    topology: 1x14c
+    accel: none
+    instances:
+    - cores: 2-15
+      core_list:
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      numa_node: 0
+      port: 9100
+    points:
+    - point_id: online_single_p128_o32_c1
+      scenario: online_single
+      prompt_size: 128
+      output_len: 32
+      concurrency: 1
+      num_requests: 6
+      min_measure_s: 0
+    - point_id: online_single_p1024_o32_c1
+      scenario: online_single
+      prompt_size: 1024
+      output_len: 32
+      concurrency: 1
+      num_requests: 6
+      min_measure_s: 0
+    - point_id: online_multi_p128_o32_c4
+      scenario: online_multi
+      prompt_size: 128
+      output_len: 32
+      concurrency: 4
+      num_requests: 8
+      min_measure_s: 0
+    - point_id: batch_p512_o32_c4
+      scenario: batch
+      prompt_size: 512
+      output_len: 32
+      concurrency: 4
+      num_requests: 8
+      min_measure_s: 0

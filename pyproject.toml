@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cpu-llm-bench"
+version = "0.1.0"
+description = "CPU LLM serving benchmark harness (llama.cpp + vLLM on ZenDNN)"
+requires-python = ">=3.12"
+dependencies = [
+    "psutil",
+    "aiohttp",
+    "pandas",
+    "pyarrow",
+    "pyyaml",
+    "pydantic>=2",
+    "numpy",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+bench = "bench.cli:main"
+
+[tool.setuptools]
+packages = ["bench", "bench.core", "bench.system", "bench.runner", "bench.analysis", "bench.reporting"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: end-to-end tests that launch the mock server (minutes)"]

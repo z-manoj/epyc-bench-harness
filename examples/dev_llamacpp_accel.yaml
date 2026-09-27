@@ -1,0 +1,36 @@
+experiment_id: dev_llamacpp_accel
+results_dir: /tmp/bench_dev_results
+dataset_dir: /home/mkumar/epyc/prompts
+dev_mode: true
+platform: {harness_cores: [0, 1], expected_smt: on, expected_governor: null, require_numactl: false}
+run_policy: {reps: 3, stability_window_s: 5, stability_max_retries: 2, cooldown_s: 3,
+             server_ready_timeout_s: 120, request_timeout_s: 600, system_check_window_s: 3}
+warmup: {server_warmup_requests: 2, per_rep_warmup_requests: 1, per_rep_warmup_min_s: 0}
+thresholds:
+  system_check: {max_mean_util_pct: 100, max_foreign_proc_cpu_pct: 1000}
+  gate: {max_other_util_mean_pct: 100, max_sys_mem_drift_mb: 4096, max_freq_dev_frac: 0.25}
+  validation: {max_outside_util_pct: 100}
+server_configs:
+  - id: llamacpp_q8_zendnn
+    engine: llamacpp
+    accel: zendnn
+    binary: /home/mkumar/llama.cpp/build/bin/llama-server
+    model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+    precision: q8_0
+    port_base: 9000
+    instances: [{cores: "2-15", numa_node: 0}]
+    args: ["-t", "14", "-tb", "14", "-np", "4", "-c", "16384", "--cont-batching"]
+    env: {ZENDNNL_MATMUL_ALGO: "1"}
+  - id: llamacpp_q8_cpu
+    engine: llamacpp
+    accel: none
+    binary: /home/mkumar/llama.cpp/build-nozendnn/bin/llama-server
+    model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+    precision: q8_0
+    port_base: 9100
+    instances: [{cores: "2-15", numa_node: 0}]
+    args: ["-t", "14", "-tb", "14", "-np", "4", "-c", "16384", "--cont-batching"]
+workloads:
+  - {scenario: online_single, prompt_sizes: [128, 1024], output_lens: [32], concurrency: [1], num_requests: 6}
+  - {scenario: online_multi, prompt_sizes: [128], output_lens: [32], concurrency: [4], num_requests: 8}
+  - {scenario: batch, prompt_sizes: [512], output_lens: [32], concurrency: [max], num_requests: 8}

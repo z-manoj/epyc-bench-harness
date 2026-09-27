@@ -1,0 +1,89 @@
+# llama.cpp Q8_0 on this 8-core / 16-thread EPYC 9V74 VM (SMT siblings are adjacent: 0-1, 2-3, ...).
+# Harness gets physical core 0 (cpus 0-1); the server gets the remaining 7 physical cores.
+# No cpufreq governor or numactl inside this container, hence the platform overrides.
+experiment_id: local_llamacpp_q8_v1
+results_dir: ../results
+dataset_dir: ../prompts
+
+platform:
+  harness_cores: [0, 1]
+  expected_smt: on
+  expected_governor: null
+  require_numactl: false
+
+# Without cpufreq, frequency comes from /proc/cpuinfo "cpu MHz", which swings ~2.6-3.7 GHz on idle
+# vCPUs of this VM; the default 5% gate tolerance would reject most idle windows.
+thresholds:
+  gate:
+    max_freq_dev_frac: 0.25
+
+server_configs:
+  - id: llamacpp_q8_1x14t
+    engine: llamacpp
+    binary: /home/mkumar/llama.cpp/build/bin/llama-server
+    model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+    precision: q8_0
+    port_base: 9000
+    instances:
+      - { cores: "2-15", numa_node: 0 }
+    args: ["-t", "14", "-tb", "14", "-np", "16", "-c", "65536", "-b", "2048", "-ub", "512", "--cont-batching"]
+    env:
+      ZENDNNL_MATMUL_ALGO: "1"
+
+  - id: llamacpp_q8_1x7c
+    engine: llamacpp
+    binary: /home/mkumar/llama.cpp/build/bin/llama-server
+    model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+    precision: q8_0
+    port_base: 9000
+    instances:
+      - { cores: "2,4,6,8,10,12,14", numa_node: 0 }
+    args: ["-t", "7", "-tb", "7", "-np", "16", "-c", "65536", "-b", "2048", "-ub", "512", "--cont-batching"]
+    env:
+      ZENDNNL_MATMUL_ALGO: "1"
+
+  # Plain ggml-cpu baselines (built with -DGGML_ZENDNN=OFF). Each pairs with the ZenDNN config above
+  # that has the same cores and args; the report's acceleration section shows the speedups.
+  - id: llamacpp_q8_1x14t_cpu
+    engine: llamacpp
+    accel: none
+    binary: /home/mkumar/llama.cpp/build-nozendnn/bin/llama-server
+    model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+    precision: q8_0
+    port_base: 9000
+    instances:
+      - { cores: "2-15", numa_node: 0 }
+    args: ["-t", "14", "-tb", "14", "-np", "16", "-c", "65536", "-b", "2048", "-ub", "512", "--cont-batching"]
+
+  - id: llamacpp_q8_1x7c_cpu
+    engine: llamacpp
+    accel: none
+    binary: /home/mkumar/llama.cpp/build-nozendnn/bin/llama-server
+    model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+    precision: q8_0
+    port_base: 9000
+    instances:
+      - { cores: "2,4,6,8,10,12,14", numa_node: 0 }
+    args: ["-t", "7", "-tb", "7", "-np", "16", "-c", "65536", "-b", "2048", "-ub", "512", "--cont-batching"]
+
+workloads:
+  - scenario: online_single
+    prompt_sizes: [128, 256, 512, 1024, 2048, 4096]
+    output_lens: [128, 512]
+    concurrency: [1]
+    num_requests: 20
+    min_measure_s: 60
+
+  - scenario: online_multi
+    prompt_sizes: [128, 256, 512, 1024, 2048, 4096]
+    output_lens: [128, 512]
+    concurrency: [2, 4, 8, 16, 32, 64]
+    num_requests: "max(50, 5*concurrency)"
+    min_measure_s: 60
+
+  - scenario: batch
+    prompt_sizes: [128, 256, 512, 1024, 2048, 4096, mixed]
+    output_lens: [128, 512]
+    concurrency: [max]
+    num_requests: 500
+    min_measure_s: 120

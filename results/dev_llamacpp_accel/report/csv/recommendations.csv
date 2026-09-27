@@ -1,0 +1,6 @@
+scenario,precision,engine,accel,server_config,topology,cores,flags,env,headline,valid_points,max_cv
+batch,8-bit,llamacpp,zendnn,llamacpp_q8_zendnn,1x14c,2-15,-t 14 -tb 14 -np 4 -c 16384 --cont-batching,ZENDNNL_MATMUL_ALGO=1,total 94.5 tok/s (gmean); 0.40 out tok/s/core,1,0.008307462587580403
+online_multi,8-bit,llamacpp,none,llamacpp_q8_cpu,1x14c,2-15,-t 14 -tb 14 -np 4 -c 16384 --cont-batching,,no SLA-meeting point,1,0.010741887821756013
+online_multi,8-bit,llamacpp,zendnn,llamacpp_q8_zendnn,1x14c,2-15,-t 14 -tb 14 -np 4 -c 16384 --cont-batching,ZENDNNL_MATMUL_ALGO=1,no SLA-meeting point,1,0.0074292290872685005
+online_single,8-bit,llamacpp,none,llamacpp_q8_cpu,1x14c,2-15,-t 14 -tb 14 -np 4 -c 16384 --cont-batching,,per-user 4.4 tok/s; TTFT p50 gmean 7158 ms,2,0.010858166365295331
+online_single,8-bit,llamacpp,zendnn,llamacpp_q8_zendnn,1x14c,2-15,-t 14 -tb 14 -np 4 -c 16384 --cont-batching,ZENDNNL_MATMUL_ALGO=1,per-user 4.4 tok/s; TTFT p50 gmean 2845 ms,2,0.03934364923847898

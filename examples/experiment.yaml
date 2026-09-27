@@ -1,0 +1,77 @@
+# Reference experiment from the spec (large EPYC host). Relative paths resolve against this file.
+experiment_id: llama31_8b_zendnn_v1
+results_dir: ../results
+dataset_dir: ../prompts
+
+platform:
+  harness_cores: [0, 1]
+  expected_smt: on
+  expected_governor: performance
+
+run_policy:
+  reps: 3
+  max_extra_reps: 2
+  stability_window_s: 30
+  stability_max_retries: 3
+  cooldown_s: 15
+  sample_interval_ms: 50
+  server_ready_timeout_s: 900
+  request_timeout_s: 1800
+  restart_server_between_reps: false
+
+warmup:
+  server_warmup_requests: 20
+  per_rep_warmup_requests: 5
+  per_rep_warmup_min_s: 10
+
+sla:
+  ttft_p95_ms: 2000
+  tpot_p95_ms: 200
+
+server_configs:
+  - id: vllm_bf16_2x32c
+    engine: vllm
+    model: /models/Llama-3.1-8B-Instruct
+    precision: bf16
+    port_base: 8000
+    instances:
+      - { cores: "2-33",  numa_node: 0 }
+      - { cores: "34-65", numa_node: 0 }
+    args: ["--dtype", "bfloat16", "--max-num-seqs", "64", "--max-num-batched-tokens", "8192",
+           "--no-enable-prefix-caching"]
+    env:
+      VLLM_CPU_KVCACHE_SPACE: "40"
+
+  - id: llamacpp_q8_1x64c
+    engine: llamacpp
+    binary: /home/mkumar/llama.cpp/build/bin/llama-server
+    model: /home/mkumar/models/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+    precision: q8_0
+    port_base: 9000
+    instances:
+      - { cores: "2-65", numa_node: 0 }
+    args: ["-t", "64", "-tb", "64", "-np", "16", "-c", "65536", "-b", "2048", "-ub", "512", "--cont-batching"]
+    env:
+      ZENDNNL_MATMUL_ALGO: "1"
+
+workloads:
+  - scenario: online_single
+    prompt_sizes: [128, 256, 512, 1024, 2048, 4096]
+    output_lens: [128, 512]
+    concurrency: [1]
+    num_requests: 20
+    min_measure_s: 60
+
+  - scenario: online_multi
+    prompt_sizes: [128, 256, 512, 1024, 2048, 4096]
+    output_lens: [128, 512]
+    concurrency: [2, 4, 8, 16, 32, 64]
+    num_requests: "max(50, 5*concurrency)"
+    min_measure_s: 60
+
+  - scenario: batch
+    prompt_sizes: [128, 256, 512, 1024, 2048, 4096, mixed]
+    output_lens: [128, 512]
+    concurrency: [max]
+    num_requests: 500
+    min_measure_s: 120

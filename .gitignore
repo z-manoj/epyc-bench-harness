@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Secrets and local env
+.env
+.env.*
+*.token
+env-*.sh
+
+# Models and large data
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.parquet
+*.arrow
+*.ipc
+
+# Run artifacts: keep reports, drop raw logs and scratch
+*.log
+results/**/logs/
+results/**/tmp/
+results/**/reps/
+results/**/samples*
+nohup.out
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store

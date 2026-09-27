@@ -1,0 +1,211 @@
+INFO 09-27 18:55:55 [importing.py:53] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+WARNING 09-27 18:55:55 [importing.py:65] Triton is installed, but doesn't include CPU backend. Disabling Triton.
+INFO 09-27 18:55:55 [importing.py:88] Triton not installed or not compatible; certain GPU-related functions will not be available.
+INFO 09-27 18:55:56 [api_utils.py:272] non-default args: {'dtype': 'bfloat16', 'max_model_len': 4096, 'enable_prefix_caching': False, 'disable_log_stats': True, 'model': '/home/zettabolt/mkumar/models/Llama-3.1-8B-Instruct'}
+WARNING 09-27 18:55:56 [arg_utils.py:1719] The global random seed is set to 0. Since VLLM_ENABLE_V1_MULTIPROCESSING is set to False, this may affect the random state of the Python process that launched vLLM.
+INFO 09-27 18:55:56 [model.py:672] Resolved architecture: LlamaForCausalLM
+INFO 09-27 18:55:56 [model.py:1965] Using max model len 4096
+INFO 09-27 18:55:56 [scheduler.py:242] Chunked prefill is enabled with max_num_batched_tokens=4096.
+INFO 09-27 18:55:56 [kernel.py:308] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+WARNING 09-27 18:55:56 [vllm.py:652] Model Runner V2 requires Triton; using the V1 model runner instead.
+INFO 09-27 18:55:58 [core.py:122] Initializing a V1 LLM engine (v0.28.0) with config: model='/home/zettabolt/mkumar/models/Llama-3.1-8B-Instruct', speculative_config=None, tokenizer='/home/zettabolt/mkumar/models/Llama-3.1-8B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=True, quantization=None, quantization_config=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cpu, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=/home/zettabolt/mkumar/models/Llama-3.1-8B-Instruct, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.DYNAMO_TRACE_ONCE: 2>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': None, 'compile_ranges_endpoints': [4096], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'dce': True, 'size_asserts': False, 'nan_asserts': False, 'epilogue_fusion': True, 'cpp.dynamic_threads': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=True, enable_bf16x3_router_gemm=False, moe_backend='auto', linear_backend='auto')
+[W927 18:55:58.349289488 utils.cpp:68] Warning: NUMA binding: Using MEMBIND policy for memory allocation on the NUMA nodes (0). Memory allocations will be strictly bound to these NUMA nodes. (function init_cpu_memory_env)
+INFO 09-27 18:55:58 [parallel_state.py:1638] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_f4536a111d9c43cfaca99c27d94d2e21 backend=gloo
+INFO 09-27 18:55:58 [parallel_state.py:1982] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+INFO 09-27 18:55:58 [cpu_model_runner.py:131] Starting to load model /home/zettabolt/mkumar/models/Llama-3.1-8B-Instruct...
+INFO 09-27 18:55:58 [selector.py:217] Using HND KV cache layout for CPU_ATTN backend.
+INFO 09-27 18:55:58 [weight_utils.py:858] Filesystem type for checkpoints: EXT4. Checkpoint size: 14.96 GiB. Available RAM: 1413.32 GiB.
+INFO 09-27 18:55:58 [weight_utils.py:881] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:00,  3.01it/s]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:00<00:00,  2.80it/s]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:01<00:00,  2.90it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  3.75it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  3.38it/s]
+
+INFO 09-27 18:56:00 [default_loader.py:430] Loading weights took 1.21 seconds
+INFO 09-27 18:56:00 [cpu_model_runner.py:150] Warming up model for the compilation...
+!!!!!!! Segfault encountered !!!!!!!
+  File "/vllm-workspace/csrc/cpu/dnnl_helper.cpp", line 443, in MatMulPrimitiveHandler::execute(MatMulPrimitiveHandler::ExecArgs&)
+  File "/vllm-workspace/csrc/cpu/dnnl_kernels.cpp", line 544, in operator()
+  File "/vllm-workspace/csrc/cpu/dnnl_kernels.cpp", line 544, in operator()
+  File "/vllm-workspace/csrc/cpu/dnnl_kernels.cpp", line 544, in onednn_mm(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&)
+  File "/opt/venv/lib/python3.12/site-packages/torch/include/ATen/core/boxing/impl/WrapFunctionIntoRuntimeFunctor.h", line 23, in c10::impl::detail::WrapFunctionIntoRuntimeFunctor_<void (*)(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&), void, c10::guts::typelist::typelist<at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&> >::operator()(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&)
+  File "/opt/venv/lib/python3.12/site-packages/torch/include/ATen/core/boxing/impl/make_boxed_from_unboxed_functor.h", line 578, in c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoRuntimeFunctor_<void (*)(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&), void, c10::guts::typelist::typelist<at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&> >, void (at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&)>::call(c10::OperatorKernel*, c10::DispatchKeySet, at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&)
+  File "/opt/venv/lib/python3.12/site-packages/torch/include/ATen/core/boxing/impl/make_boxed_from_unboxed_functor.h", line 642, in std::decay<c10::guts::infer_function_traits<c10::impl::detail::WrapFunctionIntoRuntimeFunctor_<void (*)(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&), void, c10::guts::typelist::typelist<at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&> > >::type::return_type>::type c10::impl::call_functor_with_args_from_stack_<c10::impl::detail::WrapFunctionIntoRuntimeFunctor_<void (*)(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&), void, c10::guts::typelist::typelist<at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&> >, false, 0ul, 1ul, 2ul, 3ul, at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&>(c10::OperatorKernel*, c10::DispatchKeySet, std::vector<c10::IValue, std::allocator<c10::IValue> >*, std::integer_sequence<unsigned long, 0ul, 1ul, 2ul, 3ul>, c10::guts::typelist::typelist<at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&>*)
+  File "/opt/venv/lib/python3.12/site-packages/torch/include/ATen/core/boxing/impl/make_boxed_from_unboxed_functor.h", line 666, in std::decay<c10::guts::infer_function_traits<c10::impl::detail::WrapFunctionIntoRuntimeFunctor_<void (*)(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&), void, c10::guts::typelist::typelist<at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&> > >::type::return_type>::type c10::impl::call_functor_with_args_from_stack<c10::impl::detail::WrapFunctionIntoRuntimeFunctor_<void (*)(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&), void, c10::guts::typelist::typelist<at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&> >, false>(c10::OperatorKernel*, c10::DispatchKeySet, std::vector<c10::IValue, std::allocator<c10::IValue> >*)
+  File "/opt/venv/lib/python3.12/site-packages/torch/include/ATen/core/boxing/impl/make_boxed_from_unboxed_functor.h", line 789, in c10::impl::make_boxed_from_unboxed_functor<c10::impl::detail::WrapFunctionIntoRuntimeFunctor_<void (*)(at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&), void, c10::guts::typelist::typelist<at::Tensor&, at::Tensor const&, std::optional<at::Tensor> const&, at::Tensor const&> >, false>::call(c10::OperatorKernel*, c10::OperatorHandle const&, c10::DispatchKeySet, std::vector<c10::IValue, std::allocator<c10::IValue> >*)
+  File "<unknown>", line 0, in c10::Dispatcher::callBoxed(c10::OperatorHandle const&, std::vector<c10::IValue, std::allocator<c10::IValue> >*) const [clone .isra.0]
+  File "<unknown>", line 0, in torch::jit::invokeOperatorFromPython(c10::ArrayRef<std::shared_ptr<torch::jit::Operator> >, pybind11::args const&, pybind11::kwargs const&, std::optional<c10::DispatchKey>)
+  File "<unknown>", line 0, in torch::jit::_get_operation_for_overload_or_packet(c10::ArrayRef<std::shared_ptr<torch::jit::Operator> >, c10::Symbol, pybind11::args const&, pybind11::kwargs const&, bool, std::optional<c10::DispatchKey>)
+  File "<unknown>", line 0, in pybind11::cpp_function::initialize<torch::jit::initJITBindings(_object*)::{lambda(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)#2}::operator()(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const::{lambda(pybind11::args const&, pybind11::kwargs const&)#1}, pybind11::object, pybind11::args const&, pybind11::kwargs const&>(torch::jit::initJITBindings(_object*)::{lambda(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)#2}::operator()(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const::{lambda(pybind11::args const&, pybind11::kwargs const&)#1}&&, pybind11::object (*)(pybind11::args const&, pybind11::kwargs const&))::{lambda(pybind11::detail::function_call&)#1}::_FUN(pybind11::detail::function_call&)
+  File "<unknown>", line 0, in pybind11::cpp_function::dispatcher(_object*, _object* const*, unsigned long, _object*)
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/methodobject.c", line 438, in cfunction_vectorcall_FASTCALL_KEYWORDS
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 91, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 133, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 8791, in slot_tp_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 367, in _PyObject_Call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 91, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/classobject.c", line 91, in method_vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 562, in _PyObject_CallFunctionVa
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 653, in PyObject_CallMethod
+  File "<unknown>", line 0, in torch::handle_torch_function_no_python_arg_parser(c10::ArrayRef<_object*>, _object*, _object*, char const*, _object*, char const*, c10::OperatorHandle const*, std::vector<c10::IValue, std::allocator<c10::IValue> >*, torch::TorchFunctionName)
+  File "<unknown>", line 0, in torch::detail::(anonymous namespace)::ConcretePyInterpreterVTable::dispatch(c10::OperatorHandle const&, std::vector<c10::IValue, std::allocator<c10::IValue> >*) const
+  File "<unknown>", line 0, in (anonymous namespace)::pythonFallback(c10::OperatorHandle const&, c10::DispatchKeySet, std::vector<c10::IValue, std::allocator<c10::IValue> >*)
+  File "<unknown>", line 0, in void c10::BoxedKernel::make_boxed_function<&(anonymous namespace)::pythonTLSSnapshotFallback>(c10::OperatorKernel*, c10::OperatorHandle const&, c10::DispatchKeySet, std::vector<c10::IValue, std::allocator<c10::IValue> >*)
+  File "<unknown>", line 0, in c10::Dispatcher::callBoxed(c10::OperatorHandle const&, std::vector<c10::IValue, std::allocator<c10::IValue> >*) const [clone .isra.0]
+  File "<unknown>", line 0, in torch::jit::invokeOperatorFromPython(c10::ArrayRef<std::shared_ptr<torch::jit::Operator> >, pybind11::args const&, pybind11::kwargs const&, std::optional<c10::DispatchKey>)
+  File "<unknown>", line 0, in torch::jit::_get_operation_for_overload_or_packet(c10::ArrayRef<std::shared_ptr<torch::jit::Operator> >, c10::Symbol, pybind11::args const&, pybind11::kwargs const&, bool, std::optional<c10::DispatchKey>)
+  File "<unknown>", line 0, in pybind11::cpp_function::initialize<torch::jit::initJITBindings(_object*)::{lambda(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)#2}::operator()(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const::{lambda(pybind11::args const&, pybind11::kwargs const&)#1}, pybind11::object, pybind11::args const&, pybind11::kwargs const&>(torch::jit::initJITBindings(_object*)::{lambda(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)#2}::operator()(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const::{lambda(pybind11::args const&, pybind11::kwargs const&)#1}&&, pybind11::object (*)(pybind11::args const&, pybind11::kwargs const&))::{lambda(pybind11::detail::function_call&)#1}::_FUN(pybind11::detail::function_call&)
+  File "<unknown>", line 0, in pybind11::cpp_function::dispatcher(_object*, _object* const*, unsigned long, _object*)
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/methodobject.c", line 438, in cfunction_vectorcall_FASTCALL_KEYWORDS
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 91, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 133, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 8791, in slot_tp_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 240, in _PyObject_MakeTpCall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 325, in PyObject_Vectorcall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 91, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 133, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 8791, in slot_tp_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 240, in _PyObject_MakeTpCall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 325, in PyObject_Vectorcall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 325, in PyObject_Vectorcall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 325, in PyObject_Vectorcall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 325, in PyObject_Vectorcall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "<unknown>", line 0, in dynamo_eval_custom_code
+  File "<unknown>", line 0, in dynamo__custom_eval_frame::{lambda()#2}::operator()() const
+  File "<unknown>", line 0, in dynamo__custom_eval_frame
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 91, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/classobject.c", line 91, in method_vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 89, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/classobject.c", line 91, in method_vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 89, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 133, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 8791, in slot_tp_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 240, in _PyObject_MakeTpCall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 89, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/classobject.c", line 61, in method_vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 283, in _PyVectorcall_Call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 354, in _PyObject_Call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 89, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/classobject.c", line 61, in method_vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 283, in _PyVectorcall_Call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 354, in _PyObject_Call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 144, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 8791, in slot_tp_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 367, in _PyObject_Call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 89, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_call.h", line 92, in _PyObject_VectorcallTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/classobject.c", line 69, in method_vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 89, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 133, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 9035, in slot_tp_init
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 1679, in type_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 367, in _PyObject_Call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 387, in PyCFunction_Call
+  File "Python/bytecodes.c", line 3263, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Include/internal/pycore_ceval.h", line 89, in _PyEval_EvalFrame
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 1685, in _PyEval_Vector
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 419, in _PyFunction_Vectorcall
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 133, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 9035, in slot_tp_init
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 1679, in type_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 240, in _PyObject_MakeTpCall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 144, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 9035, in slot_tp_init
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 1679, in type_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 240, in _PyObject_MakeTpCall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 144, in _PyObject_FastCallDictTstate
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 508, in _PyObject_Call_Prepend
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 9035, in slot_tp_init
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/typeobject.c", line 1679, in type_call
+  File "/usr/local/src/conda/python-split-3.12.14/Objects/call.c", line 240, in _PyObject_MakeTpCall
+  File "Python/bytecodes.c", line 2715, in _PyEval_EvalFrameDefault
+  File "/usr/local/src/conda/python-split-3.12.14/Python/ceval.c", line 580, in PyEval_EvalCode
+  File "/usr/local/src/conda/python-split-3.12.14/Python/pythonrun.c", line 1757, in run_eval_code_obj
+  File "/usr/local/src/conda/python-split-3.12.14/Python/pythonrun.c", line 1778, in run_mod
+  File "/usr/local/src/conda/python-split-3.12.14/Python/pythonrun.c", line 1674, in pyrun_file
+  File "/usr/local/src/conda/python-split-3.12.14/Python/pythonrun.c", line 459, in _PyRun_SimpleFileObject
+  File "/usr/local/src/conda/python-split-3.12.14/Python/pythonrun.c", line 78, in _PyRun_AnyFileObject
+  File "/usr/local/src/conda/python-split-3.12.14/Modules/main.c", line 361, in pymain_run_file_obj
+  File "/usr/local/src/conda/python-split-3.12.14/Modules/main.c", line 380, in pymain_run_file
+  File "/usr/local/src/conda/python-split-3.12.14/Modules/main.c", line 634, in pymain_run_python
+  File "/usr/local/src/conda/python-split-3.12.14/Modules/main.c", line 714, in Py_RunMain
+  File "/usr/local/src/conda/python-split-3.12.14/Modules/main.c", line 768, in Py_BytesMain
+  File "<unknown>", line 0, in 0xffffffffffffffff
+

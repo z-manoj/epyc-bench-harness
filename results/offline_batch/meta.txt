@@ -1,0 +1,4 @@
+date: 2026-09-27T19:41:37+00:00  cpus: 0-95  mem node: 0  batch: 20 x 1024 in / 128 out  freezing: env default (1)
+date: 2026-09-27T19:45:22+00:00  cpus: 0-95  mem node: 0  batch: 20 x 1024 in / 128 out  freezing: 0
+date: 2026-09-27T19:55:53+00:00  cpus: 0-95  mem node: 0  batch: 20 x 1024 in / 128 out  freezing: env default (1)  chunked prefill: 0
+date: 2026-09-27T19:59:45+00:00  cpus: 0-95  mem node: 0  batch: 20 x 1024 in / 128 out  freezing: 0  chunked prefill: 0
