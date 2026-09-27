@@ -47,7 +47,7 @@ pytest -q                            # 26 tests; e2e tests are marked `slow`
 | `tests/` | `mock_server.py` (OpenAI-compatible mock), `test_config.py`, `test_analysis.py`, `test_e2e.py` |
 | `examples/` | Harness configs; `experiment.yaml` documents every option. Core counts in them are for the old 8-core VM |
 | `prompts/` | `prompts_{128..4096}.txt`, JSONL `{id, text}`, 20 prompts each |
-| `docs/` | `deployment_recommendations.md` |
+| `docs/` | `deployment_recommendations.md`, `throughput_experiment_plan.md` (single vs multi-instance, 6 stages) |
 | `results/` | Committed: reports, CSVs, PNGs, raw JSONL. Ignored: `logs/`, `*.log`, parquet |
 
 ## Conventions
@@ -119,7 +119,8 @@ This host, socket 0, 1024-token prompt / 128 generated tokens (`results/smoke_10
 1. Done: harness, setup scripts, llama.cpp + vLLM smoke (8 configs), vLLM sweep (zentorch), offline batch
    20 and 50 prompts, README, deployment recommendations, repo pushed.
 2. W8A8 offline batch, zentorch vs stock (`FREEZING=0`).
-3. Two vLLM instances per socket (AMD methodology); fix `OUT` in `amd_repro_throughput.sh` first.
+3. Throughput deployment study per `docs/throughput_experiment_plan.md`; first write `scripts/multi_instance.sh`
+   (N instances from a CCD-aligned partition spec), superseding `amd_repro_throughput.sh`.
 4. llama.cpp with `GGML_ZENDNN_ADAPTIVE_FALLBACK=0`, single stream and 16 parallel slots.
 5. llama.cpp parallel slots (`-np`) under concurrent load; stock vLLM sweep with `FREEZING=0`.
 6. Harness: port examples to this host's core layout; batch drift check (total-token drift, skip under ~4 waves);

@@ -119,7 +119,9 @@ CPUS=0-95 MEM_NODE=0 N=50 FREEZING=0 CHUNKED=0 OUT=results/offline_batch_n50 \
 ### Deployment recommendations
 
 Suggested llama.cpp and vLLM configurations for single-user, multi-user and batch deployments, with and without
-ZenDNN, are in [docs/deployment_recommendations.md](docs/deployment_recommendations.md).
+ZenDNN, are in [docs/deployment_recommendations.md](docs/deployment_recommendations.md). The plan for finding the
+best throughput deployment (single vs multi-instance, instance size and placement) is in
+[docs/throughput_experiment_plan.md](docs/throughput_experiment_plan.md).
 
 ## Known issues
 
@@ -156,7 +158,7 @@ from YAML. See `CLAUDE.md` for the package layout and conventions.
 | Path | Contents |
 |---|---|
 | `bench/` | Harness package: `core/` config and status, `system/` sampler and env capture, `runner/` server lifecycle and load generator, `analysis/` metrics and gating, `reporting/` HTML/Markdown/plots |
-| `docs/` | Deployment recommendations |
+| `docs/` | Deployment recommendations and throughput experiment plan |
 | `scripts/` | Setup, smoke, sweep, offline batch, AMD reproduction and profiling scripts |
 | `tests/` | Unit and end-to-end tests with an OpenAI-compatible mock server |
 | `examples/` | Harness experiment configs |
