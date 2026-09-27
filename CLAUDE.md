@@ -118,7 +118,9 @@ This host, socket 0, 1024-token prompt / 128 generated tokens (`results/smoke_10
 
 1. Done: harness, setup scripts, llama.cpp + vLLM smoke (8 configs), vLLM sweep (zentorch), offline batch
    20 and 50 prompts, README, deployment recommendations, repo pushed.
-2. W8A8 offline batch, zentorch vs stock (`FREEZING=0`).
+2. Prefill/decode cost map (multi-user plan stage 1): TTFT for prompts 512..8192 (step 512) × 4..96 cores
+   (step 4), isolated then loaded; feeds guaranteed-TTFT pool sizing (Model B). Target workload is ~8K prompts.
+   W8A8 offline batch, zentorch vs stock (`FREEZING=0`).
 3. Throughput deployment study per `docs/throughput_experiment_plan.md`; first write `scripts/multi_instance.sh`
    (N instances from a CCD-aligned partition spec), superseding `amd_repro_throughput.sh`.
 4. llama.cpp with `GGML_ZENDNN_ADAPTIVE_FALLBACK=0`, single stream and 16 parallel slots.
