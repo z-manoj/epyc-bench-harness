@@ -116,6 +116,11 @@ CPUS=0-95 MEM_NODE=0 N=50 FREEZING=0 CHUNKED=0 OUT=results/offline_batch_n50 \
   (1.10-1.53x) compares against vLLM 0.9.0 + IPEX, a much weaker baseline than today's stock vLLM CPU backend.
 - AMD tested on EPYC 9755 (Turin, Zen 5), whose full-width AVX-512 suits ZenDNN kernels better than Zen 4.
 
+### Deployment recommendations
+
+Suggested llama.cpp and vLLM configurations for single-user, multi-user and batch deployments, with and without
+ZenDNN, are in [docs/deployment_recommendations.md](docs/deployment_recommendations.md).
+
 ## Known issues
 
 - **Stock vLLM segfaults with `TORCHINDUCTOR_FREEZING=1`.** The crash is in `onednn_mm`
@@ -151,6 +156,7 @@ from YAML. See `CLAUDE.md` for the package layout and conventions.
 | Path | Contents |
 |---|---|
 | `bench/` | Harness package: `core/` config and status, `system/` sampler and env capture, `runner/` server lifecycle and load generator, `analysis/` metrics and gating, `reporting/` HTML/Markdown/plots |
+| `docs/` | Deployment recommendations |
 | `scripts/` | Setup, smoke, sweep, offline batch, AMD reproduction and profiling scripts |
 | `tests/` | Unit and end-to-end tests with an OpenAI-compatible mock server |
 | `examples/` | Harness experiment configs |
