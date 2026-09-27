@@ -123,7 +123,9 @@ ZenDNN, are in [docs/deployment_recommendations.md](docs/deployment_recommendati
 best throughput deployment (single vs multi-instance, instance size and placement) is in
 [docs/throughput_experiment_plan.md](docs/throughput_experiment_plan.md), and the plan for finding the best
 multi-user interactive configuration (capacity at a latency target) is in
-[docs/multi_user_experiment_plan.md](docs/multi_user_experiment_plan.md).
+[docs/multi_user_experiment_plan.md](docs/multi_user_experiment_plan.md). The Phase 3(c) production deployment
+plan (Kubernetes on EPYC, topology framework, load balancing, sustained concurrency, runtime benchmark) is in
+[docs/phase3c_production_deployment_plan.md](docs/phase3c_production_deployment_plan.md).
 
 ## Known issues
 
