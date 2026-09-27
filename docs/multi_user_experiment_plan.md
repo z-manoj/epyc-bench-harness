@@ -11,17 +11,24 @@ plan; this plan adds latency targets, realistic traffic, and scheduler tuning.
 ## 1. Define the service targets first
 
 Everything is judged against these, so fix them before measuring. Suggested defaults for chat; adjust to the
-product:
+product.
 
-| Metric | Target (p99 unless stated) | What the user sees |
-|---|---|---|
-| Time to first token (TTFT) | ≤ 2 s (p50 ≤ 1 s) | Delay before the answer starts |
-| Time per output token (TPOT) | ≤ 100 ms (≥ 10 tok/s per user) | Streaming speed; people read ~5-8 tok/s |
-| Inter-token gap | p99 ≤ 300 ms | Visible stalls mid-answer |
-| Errors / timeouts | < 0.1% | Failed requests |
+On CPU, a fixed TTFT target like "under 1 s" only works for short prompts at low load. Prompt processing on one
+socket runs at roughly 1,000-1,700 tokens/s in total (measured, single request: 1024 tokens take 0.61 s with vLLM
+W8A8 and 0.99 s with BF16; 4096 tokens take 4.8 s and 8192 take 12 s with BF16), and that capacity is shared by
+all users. The TTFT target therefore scales with the number of tokens that actually have to be processed: the
+prompt length, or only the uncached part when prefix caching hits.
 
-A run **meets the targets** only if all rows pass. **Capacity** = the highest load that meets the targets.
-Report capacity for a relaxed tier too (e.g. TTFT ≤ 5 s, TPOT ≤ 200 ms), since the ranking can change.
+| Metric | Interactive tier (p99) | Relaxed tier (p99) | What the user sees |
+|---|---|---|---|
+| TTFT | ≤ 2 s + 1 ms per uncached prompt token (≈ 3 s at 1K, 6 s at 4K) | ≤ 10 s + 2 ms per uncached token | Delay before the answer starts |
+| Time per output token (TPOT) | ≤ 100 ms (≥ 10 tok/s per user) | ≤ 200 ms | Streaming speed; people read ~5-8 tok/s |
+| Inter-token gap | ≤ 300 ms | ≤ 1 s | Visible stalls mid-answer |
+| Errors / timeouts | < 0.1% | < 0.1% | Failed requests |
+
+A run **meets the targets** only if all rows pass. **Capacity** = the highest load that meets the targets. Report
+both tiers, since the ranking can change. Also report the unloaded single-request TTFT per configuration as the
+floor: no load level can beat it.
 
 ## 2. Realistic traffic
 
@@ -116,8 +123,8 @@ if splits look promising, test least-outstanding-requests routing too.
   final point with a 15-20 minute run.
 - Repeat for the relaxed tier.
 
-Output: the headline number per configuration, e.g. "vLLM zentorch W8A8, 2 × 48: 2.4 req/s or ~60 users at
-p99 TTFT ≤ 2 s".
+Output: the headline number per configuration, e.g. "vLLM zentorch W8A8, 2 × 48: N req/s or M users within
+the interactive tier".
 
 ### Stage 5: robustness
 
