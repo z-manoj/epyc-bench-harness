@@ -23,7 +23,8 @@ Related plans in this repo, reused here rather than repeated:
 
 ## 2. Assumptions to confirm early
 
-These change the experiment matrix; defaults are used until confirmed.
+These change the experiment matrix; defaults are used until confirmed. The client questionnaire covering these and
+the other inputs is [client_requirements_sheet.md](client_requirements_sheet.md).
 
 | Item | Default assumption |
 |---|---|
