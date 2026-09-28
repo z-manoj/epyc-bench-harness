@@ -1,0 +1,6 @@
+INFO 09-28 07:03:48 [__init__.py:197] AMD Zen CPU detected with zentorch installed, using ZenCpuPlatform.
+INFO 09-28 07:03:48 [__init__.py:254] Platform plugin zentorch is activated
+INFO 09-28 07:03:54 [__init__.py:197] AMD Zen CPU detected with zentorch installed, using ZenCpuPlatform.
+INFO 09-28 07:16:32 [__init__.py:197] AMD Zen CPU detected with zentorch installed, using ZenCpuPlatform.
+INFO 09-28 07:16:32 [__init__.py:254] Platform plugin zentorch is activated
+INFO 09-28 07:16:38 [__init__.py:197] AMD Zen CPU detected with zentorch installed, using ZenCpuPlatform.

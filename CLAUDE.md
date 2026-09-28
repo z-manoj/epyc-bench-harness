@@ -81,12 +81,15 @@ pytest -q                            # 26 tests; e2e tests are marked `slow`
   `zentorch-2026-WW38` (source in `~/vllm-zen/zentorch-src`). vLLM 0.30 needs glibc 2.39.
 - `~/vllm-zen/tools`: uv venv with aiohttp, pandas, matplotlib, numpy, tabulate (clients and reports).
   The repo `.venv` is broken here (its wheels need glibc 2.38).
-- Models in `~/mkumar/models`: `Llama-3.1-8B-Instruct` (BF16 safetensors),
-  `Meta-Llama-3.1-8B-Instruct-quantized.w8a8` (RedHatAI), `gguf/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf`,
-  `gguf/Llama-3.1-8B-Instruct-BF16.gguf`.
+- Models in `~/mkumar/models` (Llama 3.1 8B, Qwen2 7B, Mixtral 8x7B; all Instruct): BF16 safetensors
+  (`Llama-3.1-8B-Instruct`, `Qwen2-7B-Instruct`, `Mixtral-8x7B-Instruct-v0.1`), W8A8 (`*-quantized.w8a8`; Llama
+  and Qwen2 from RedHatAI, Mixtral made locally with `scripts/quantize_w8a8.py`, RTN, venv `~/vllm-zen/llmc`),
+  and `gguf/` BF16 + Q8_0. Mixtral GGUFs were converted locally (TheBloke's Q8_0 uses the old split-expert
+  layout, which current llama.cpp rejects); the Mixtral BF16 GGUF lives on `/scratch/zettabolt/models/gguf`
+  and is symlinked. `/` is ~91% full.
 - GitHub: `gh` CLI is logged in as `akhetan_amdeng`; SSH `github.com` = `sushant-zettabolt`; SSH alias
   `github-z-manoj` = `z-manoj`. None can access the private `AMD-Zenai` repos.
-- HF token in `~/.cache/huggingface/token` (exported as `HF_TOKEN` from `~/.bashrc`); never print it. Tokens can
+- HF token in `~/.cache/huggingface/token` (`hf auth login`, user `manojredhat`, has Mixtral access); never print it. Tokens can
   appear in other users' `ps` output; never repeat them.
 
 ## Key findings
@@ -104,6 +107,17 @@ This host, socket 0, 1024-token prompt / 128 generated tokens (`results/smoke_10
 - llama.cpp fallback: `ggml_backend_zendnn_device_supports_op` rejects MUL_MAT with `K <= 256`, `N <= 128` or
   `M <= 96` (N = tokens in the ubatch), so decode always runs on ggml-cpu. `GGML_ZENDNN_ADAPTIVE_FALLBACK=0`
   disables the fallback (not yet benchmarked). ZenDNN costs ~8 GB extra RSS (one extra weight copy).
+
+Three models × 4 formats, 32 cores (`results/smoke_models_1024_128/`, report with CPU/memory profile):
+
+- Mixtral 8x7B (MoE): ZenDNN matters much more than on dense models. TTFT vLLM zentorch 4.4 s vs stock 18.8 s
+  (4.3x); llama.cpp ZenDNN 2.3x (BF16) / 3.0x (Q8_0). Best: vLLM zentorch W8A8 (TTFT 2.3 s, TPOT 107 ms);
+  llama.cpp Q8_0 has the best decode (96 ms). Stock vLLM 0.28 cannot serve Mixtral W8A8 ("No Int8 MoE backend").
+- Mixtral memory: ZenDNN/zentorch keep an extra weight copy (llama.cpp ZenDNN BF16 253 GB RSS vs 88; Q8_0 179 vs
+  47; vLLM zentorch BF16 190 vs 106). llama.cpp ZenDNN's first MoE request takes 86 s (BF16) / 18 s (Q8_0).
+- Dense Llama/Qwen2 repeat the Llama pattern: zentorch ≈ stock, llama.cpp ZenDNN ~2.3x prefill, decode unchanged.
+- Profiling: never read `/proc/<pid>/smaps*` from a sampler; it takes the mmap lock and slowed a faulting 140 GB
+  vLLM worker ~11x (inflated startups 6-10x). `proc_sampler.py` uses `status`/`stat` only.
 
 ## Known issues
 

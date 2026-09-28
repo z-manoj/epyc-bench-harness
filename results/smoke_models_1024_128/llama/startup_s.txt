@@ -1,0 +1,8 @@
+llamacpp-zendnn-bf16 3
+llamacpp-cpu-bf16 3
+vllm-zentorch-bf16 96
+vllm-cpu-bf16 117
+llamacpp-zendnn-q8 3
+llamacpp-cpu-q8 3
+vllm-zentorch-w8a8 84
+vllm-cpu-w8a8 114

@@ -1,0 +1,7 @@
+date: 2026-09-28T05:32:24+00:00
+model: qwen2
+host: volcano-a942-host  cpu: AMD EPYC 9R14 96-Core Processor
+server cpus: 0-31 (+SMT 192-223 for vLLM frontend)  mem node: 0  client cpus: 96-97
+llama.cpp: 9adc7f420 convert : export YaRN scaling parameters for PLaMo-3 (#29528)  LD_PRELOAD=/home/zettabolt/vllm-zen/env/lib/libiomp5.so:/home/zettabolt/vllm-zen/env/lib/libtcmalloc_minimal.so.4
+vllm-zentorch: torch 2.13.0+cpu,vllm 0.28.0+cpu,zentorch 2.13.0.1
+vllm-cpu: torch 2.13.0+cpu,vllm 0.28.0+cpu

@@ -12,20 +12,18 @@ import time
 
 import aiohttp
 
-BOS = 128000
-# Llama 3 ordinary-vocab ids; >= 128000 are special tokens
-VOCAB_LO, VOCAB_HI = 1000, 127000
-
-
-def make_prompt(n_tokens: int, seed: int) -> list[int]:
+# Defaults are Llama 3: BOS 128000, ordinary-vocab ids below 128000. Mixtral: --bos 1 --vocab-hi 31000.
+# Qwen2 has no BOS (--bos -1).
+def make_prompt(args, seed: int) -> list[int]:
     rng = random.Random(seed)
-    return [BOS] + [rng.randrange(VOCAB_LO, VOCAB_HI) for _ in range(n_tokens - 1)]
+    bos = [args.bos] if args.bos >= 0 else []
+    return bos + [rng.randrange(args.vocab_lo, args.vocab_hi) for _ in range(args.prompt_len - len(bos))]
 
 
 async def one_request(session, args, seed):
     body = {
         "model": args.model,
-        "prompt": make_prompt(args.prompt_len, seed),
+        "prompt": make_prompt(args, seed),
         "max_tokens": args.gen_len,
         "temperature": 0.0,
         "stream": True,
@@ -35,6 +33,7 @@ async def one_request(session, args, seed):
     if args.engine == "llamacpp":
         body["cache_prompt"] = False
     t0 = time.perf_counter()
+    t0_epoch = time.time()
     ttft = None
     token_times = []
     usage, timings = None, None
@@ -72,6 +71,9 @@ async def one_request(session, args, seed):
         "stream_chunks": len(token_times),
         "prefill_tok_s": args.prompt_len / ttft,
         "decode_tok_s": 1.0 / tpot,
+        "t_start": t0_epoch,
+        "t_first": t0_epoch + ttft,
+        "t_end": t0_epoch + e2e,
     }
     if timings:
         rec["server_prompt_ms"] = timings.get("prompt_ms")
@@ -91,6 +93,9 @@ async def main():
     ap.add_argument("--warmup", type=int, default=1)
     ap.add_argument("--concurrency", type=int, default=1)
     ap.add_argument("--scenario", default="")
+    ap.add_argument("--bos", type=int, default=128000)
+    ap.add_argument("--vocab-lo", type=int, default=1000)
+    ap.add_argument("--vocab-hi", type=int, default=127000)
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
